@@ -14,7 +14,7 @@ sudo apt-get remove -qq nano # this makes the editor default to vi instead, my p
 # no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
 sudo apt-get install -qq --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
 sudo apt-get install -qq --no-install-recommends curl wget 
-
+sudo apt-get install -qq python3 python3-pip
 #-----
 
 echo "Installing native build tools"
@@ -70,6 +70,7 @@ echo "Pico env installed to ~/pico (rpi default location)"
 echo "Installing RIOT-OS to ~/src/RIOT"
 mkdir -p ~/src
 (cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
+pip3 install twisted
 
 if ! [ -d ~/.platformio ]
 then
