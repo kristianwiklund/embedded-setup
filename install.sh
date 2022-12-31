@@ -81,8 +81,8 @@ echo "Installing RIOT-OS to ~/src/RIOT"
 mkdir -p ~/src
 (cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
 sudo apt-get -qq install graphviz graphviz-dev
-sudo apt-get -qq remove typing-extensions # outdated
-pip3 install --quiet twisted pyserial graphviz python3-typing-extensions
+sudo apt-get -qq remove python3-typing-extensions
+pip3 install --quiet twisted pyserial graphviz typing-extensions
 
 
 if ! [ -d ~/.platformio ]
