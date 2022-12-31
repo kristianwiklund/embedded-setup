@@ -49,6 +49,15 @@ echo "Installing native build tools"
 sudo apt-get -qq install --no-install-recommends build-essential
 
 #-----
+echo "Installing sigrok from nightly build"
+mkdir -p $HOME/.local/bin
+wget -nc https://sigrok.org/download/binary/pulseview/PulseView-NIGHTLY-x86_64.AppImage -O $HOME/.local/bin/pulseview
+wget -nc https://sigrok.org/download/binary/sigrok-cli/sigrok-cli-NIGHTLY-x86_64.AppImage -O $HOME/.local/bin/sigrok-cli
+chmod +x ~/.local/bin/sigrok
+chmod +x ~/.local/bin/pulseview
+
+
+#-----
 
 echo "Installing AVR build tools"
 sudo apt-get -qq install avr-libc gcc-avr gdb-avr binutils-avr
