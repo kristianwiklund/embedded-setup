@@ -53,7 +53,7 @@ echo "Installing sigrok from nightly build"
 mkdir -p $HOME/.local/bin
 wget -nc https://sigrok.org/download/binary/pulseview/PulseView-NIGHTLY-x86_64.AppImage -O $HOME/.local/bin/pulseview
 wget -nc https://sigrok.org/download/binary/sigrok-cli/sigrok-cli-NIGHTLY-x86_64.AppImage -O $HOME/.local/bin/sigrok-cli
-chmod +x ~/.local/bin/sigrok
+chmod +x ~/.local/bin/sigrok-cli
 chmod +x ~/.local/bin/pulseview
 
 
