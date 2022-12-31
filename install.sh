@@ -12,9 +12,9 @@ chmod 755 uninstall.sh
 echo "Installing basic sane environment"
 sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
 # no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
-sudo apt-get install -qq --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
-sudo apt-get install -qq --no-install-recommends curl wget 
-sudo apt-get install -qq python3 python3-pip python3-venv
+sudo apt-get -qq install --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
+sudo apt-get -qq install --no-install-recommends curl wget 
+sudo apt-get -qq install python3 python3-pip python3-venv
 git config --global pull.rebase false # this is how I roll
 #-----
 
@@ -28,29 +28,29 @@ fi
 
 #-----
 echo "Installing native build tools"
-sudo apt-get install -qq --no-install-recommends build-essential
+sudo apt-get -qq install --no-install-recommends build-essential
 
 #-----
 
 echo "Installing AVR build tools"
-sudo apt-get install -qq avr-libc gcc-avr gdb-avr binutils-avr
-sudo apt-get install -qq avrdude
+sudo apt-get -qq install avr-libc gcc-avr gdb-avr binutils-avr
+sudo apt-get -qq install avrdude
 
 #-----
 
 echo "Installing preconditions for avrdudess"
 echo "Get the latest version of avrdudess from https://github.com/ZakKemble/AVRDUDESS/releases"
-sudo apt-get install -qq mono-complete
+sudo apt-get -qq install mono-complete
 
 #-----
 
 echo "Installing OpenOCD"
-sudo apt-get install -qq openocd
+sudo apt-get -qq install openocd
 
 #-----
 
 echo "Installing tooling for IKEA Tradfri development"
-sudo apt-get install -qq gcc-arm-none-eabi
+sudo apt-get -qq install gcc-arm-none-eabi
 
 #-----
 
@@ -73,14 +73,17 @@ mkdir -p ~/pico
 
 echo "...pico toolchain"
 
-sudo apt-get install -qq cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
+sudo apt-get -qq install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
 
 echo "Pico env installed to ~/pico (rpi default location)"
 
 echo "Installing RIOT-OS to ~/src/RIOT"
 mkdir -p ~/src
 (cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
-pip3 install twisted pyserial
+sudo apt-get -qq install graphviz graphviz-dev
+sudo apt-get -qq remove typing-extensions # outdated
+pip3 install --quiet twisted pyserial graphviz python3-typing-extensions
+
 
 if ! [ -d ~/.platformio ]
 then
