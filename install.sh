@@ -11,6 +11,7 @@ chmod 755 uninstall.sh
 
 echo "Installing basic sane environment"
 sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
+# no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
 sudo apt-get install -qq --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
 sudo apt-get install -qq --no-install-recommends curl wget 
 
