@@ -9,13 +9,28 @@ chmod 755 uninstall.sh
 
 #-----
 
-echo "Installing basic sane environment"
-sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
-# no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
-sudo apt-get -qq install --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
+echo "Installing basic environment"
 sudo apt-get -qq install --no-install-recommends curl wget 
 sudo apt-get -qq install python3 python3-pip python3-venv
 git config --global pull.rebase false # this is how I roll
+
+#-----
+echo "Installing emacs with modes"
+sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
+# no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
+sudo apt-get -qq install --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
+touch ~/.emacs
+
+if ! grep -Fq melpa  ~/.emacs
+then
+    cat >> ~/.emacs < 'END'
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+END
+
+emacs --eval="(progn (package-initialize)(package-install 'arduino-mode)(kill-emacs))"
+   
 #-----
 
 if ! grep -Fq .local/bin  ~/.profile
@@ -43,7 +58,6 @@ echo "Get the latest version of avrdudess from https://github.com/ZakKemble/AVRD
 sudo apt-get -qq install mono-complete
 
 #-----
-
 echo "Installing OpenOCD"
 sudo apt-get -qq install openocd
 
