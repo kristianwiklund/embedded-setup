@@ -14,9 +14,19 @@ sudo apt-get remove -qq nano # this makes the editor default to vi instead, my p
 # no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
 sudo apt-get install -qq --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
 sudo apt-get install -qq --no-install-recommends curl wget 
-sudo apt-get install -qq python3 python3-pip
+sudo apt-get install -qq python3 python3-pip python3-venv
+git config --global pull.rebase false # this is how I roll
 #-----
 
+if ! grep -Fq .local/bin  ~/.profile
+then
+    echo "Adding $HOME/.local/bin to path"
+    echo "PATH=\$PATH:\$HOME/.local/bin" >> ~/.profile
+    PATH=$PATH:$HOME/.local/bin
+fi
+
+
+#-----
 echo "Installing native build tools"
 sudo apt-get install -qq --no-install-recommends build-essential
 
@@ -70,7 +80,7 @@ echo "Pico env installed to ~/pico (rpi default location)"
 echo "Installing RIOT-OS to ~/src/RIOT"
 mkdir -p ~/src
 (cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
-pip3 install twisted
+pip3 install twisted pyserial
 
 if ! [ -d ~/.platformio ]
 then
@@ -85,6 +95,7 @@ then
     fi
 else
     echo "Platformio already installed in ~/.platformio - Updating platformio"
-    pio upgrade
+    $HOME/.platformio/penv/bin/pio upgrade
 fi
 
+echo "Log out and log in to update paths!"
