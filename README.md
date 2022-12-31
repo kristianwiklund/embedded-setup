@@ -1,2 +1,2 @@
 # embedded-setup
-Things I do after fresh linux install to get my embedded env up and running.
+Things I do after fresh Debian install to get my embedded env up and running.

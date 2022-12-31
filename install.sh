@@ -1,30 +1,88 @@
 #!/bin/bash
 
+echo "Creating uninstall script"
+cat install.sh | grep -v uninstall | egrep "(apt-get|echo)" | grep -v pio | grep -v RIOT | grep -v pico | grep -v platformio | sed -e 's/Install/Remov/g' -e 's/install/remove/g' > uninstall.sh
+echo "sudo apt-get autoremove" >> uninstall.sh
+echo "echo Remove ~/pico, ~/src/RIOT, and platformio manually" >> uninstall.sh
+
+chmod 755 uninstall.sh
+
+#-----
+
 echo "Installing basic sane environment"
 sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
 sudo apt-get install -qq --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
 sudo apt-get install -qq --no-install-recommends curl wget 
 
+#-----
+
 echo "Installing native build tools"
 sudo apt-get install -qq --no-install-recommends build-essential
+
+#-----
 
 echo "Installing AVR build tools"
 sudo apt-get install -qq avr-libc gcc-avr gdb-avr binutils-avr
 sudo apt-get install -qq avrdude
 
+#-----
+
 echo "Installing preconditions for avrdudess"
 echo "Get the latest version of avrdudess from https://github.com/ZakKemble/AVRDUDESS/releases"
 sudo apt-get install -qq mono-complete
 
+#-----
+
 echo "Installing OpenOCD"
 sudo apt-get install -qq openocd
+
+#-----
 
 echo "Installing tooling for IKEA Tradfri development"
 sudo apt-get install -qq gcc-arm-none-eabi
 
-echo "Creating uninstall script"
-cat install.sh | grep -v curl | sed -e 's/Install/Remov/g' -e 's/install/remove/g' > uninstall.sh
-echo "sudo apt-get autoremove" >> uninstall.sh
-chmod 755 uninstall.sh
+#-----
 
+echo "Installing tooling for rpi pico"
+
+# Official quick install script - which is exceptionally slow and noisy
+#wget -O /tmp/pico_setup.sh https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh
+#chmod +x /tmp/pico_setup.sh
+# I do not enjoy vscode - hence not installing it
+# openocd is already installed, don't run the pi install variant
+#(cd ~; SKIP_OPENOCD=1 SKIP_VSCODE=1 /tmp/pico_setup.sh)
+#rm -f /tmp/pico_setup.sh
+
+# shallow clone of the pico repo
+echo "...pico sdk with examples"
+mkdir -p ~/pico
+(cd ~/pico; git clone https://github.com/raspberrypi/pico-sdk.git --depth 1 --branch master)
+(cd ~/pico/pico-sdk; git submodule update --depth 1 --init)
+(cd ~/pico/; git clone https://github.com/raspberrypi/pico-examples.git --depth 1 --branch master)
+
+echo "...pico toolchain"
+
+sudo apt-get install -qq cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
+
+echo "Pico env installed to ~/pico (rpi default location)"
+
+echo "Installing RIOT-OS to ~/src/RIOT"
+mkdir -p ~/src
+(cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
+
+if ! [ -d ~/.platformio ]
+then
+    echo "Installing pio command line using convenience script"
+    curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py -o get-platformio.py
+    python3 get-platformio.py
+    
+    echo "Installing pio cli to .profile"
+    if ! grep -Fq platformio ~/.profile
+    then
+	echo "PATH=\$PATH:\$HOME/.platformio/penv/bin" >> ~/.profile
+    fi
+else
+    echo "Platformio already installed in ~/.platformio - Updating platformio"
+    pio upgrade
+fi
 
