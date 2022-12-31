@@ -19,19 +19,22 @@ echo "Installing emacs with modes"
 sudo apt-get remove -qq nano # this makes the editor default to vi instead, my preference
 # no-install-recommends on emacs prevents X11 emacs from being installed. I dislike X11 emacs...
 sudo apt-get -qq install --no-install-recommends emacs-nox elpa-yaml-mode elpa-markdown-mode 
-touch ~/.emacs
 
-if ! grep -Fq melpa  ~/.emacs
+touch ~/.emacs # in case it doesn't exist
+
+if ! grep -q melpa  ~/.emacs
 then
-    cat >> ~/.emacs < 'END'
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/packages/"))
+    echo "Installing elpa/melpa package mgr paths to emacs"
+    cat >> ~/.emacs << EOF
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-END
+(package-initialize)
+EOF
+fi
 
 emacs --eval="(progn (package-initialize)(package-install 'arduino-mode)(kill-emacs))"
-   
-#-----
+
+#----
 
 if ! grep -Fq .local/bin  ~/.profile
 then
