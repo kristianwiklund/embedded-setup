@@ -73,12 +73,17 @@ sudo apt-get -qq install mono-complete
 echo "Installing PIC development tools"
 sudo apt-get -qq --no-install-recommends install sdcc
 
-if ! [ -f MPLAB-installer.sh]; then
-    wget -nc https://www.microchip.com/mplabx-ide-linux-installer -O MPLAB-installer.tar
-    P=`tar xvf MPLAB-installer.tar`
-    rm -rf MPLAB-installer.tar
-    chmod 755 $P
-    ./$P
+# the below code is untested.
+if ! [ -f /usr/bin/mplab_ide]; then
+    if ! [ -f MPLAB-installer.sh]; then
+	wget -nc https://www.microchip.com/mplabx-ide-linux-installer -O MPLAB-installer.tar
+	P=`tar xvf MPLAB-installer.tar`
+	rm -rf MPLAB-installer.tar
+	chmod 755 $P
+	if ! [ -z "$DISPLAY"]; then
+	    ./$P
+	fi
+    fi
 fi
 
 
