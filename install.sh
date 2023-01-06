@@ -74,7 +74,8 @@ echo "Installing PIC development tools"
 sudo apt-get -qq --no-install-recommends install sdcc
 
 # the below code is untested.
-if ! [ -f /usr/bin/mplab_ide]; then
+if ! [ -f /usr/bin/mplab_ipe ]; then
+    echo "MPLAB is not installed, downloading (and installing if running from X11)"
     if ! [ -f MPLAB-installer.sh]; then
 	wget -nc https://www.microchip.com/mplabx-ide-linux-installer -O MPLAB-installer.tar
 	P=`tar xvf MPLAB-installer.tar`
