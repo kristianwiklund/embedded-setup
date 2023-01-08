@@ -72,6 +72,17 @@ echo "Get the latest version of avrdudess from https://github.com/ZakKemble/AVRD
 sudo apt-get -qq install mono-complete
 
 #-----
+echo "Installing simavr"
+
+sudo apt-get install -qq libelf-dev
+sudo apt-get install -qq freeglut3 freeglut3-dev
+
+mkdir -p ~/src
+(cd ~/src; git clone --depth=1 https://github.com/buserror/simavr.git)
+(cd ~/src/simavr; make all)
+(cd ~/src/simavr; sudo make install)
+
+#
 echo "Installing PIC development tools"
 sudo apt-get -qq --no-install-recommends install sdcc
 
