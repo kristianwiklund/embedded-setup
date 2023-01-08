@@ -64,7 +64,7 @@ chmod +x ~/.local/bin/pulseview
 echo "Installing AVR build tools"
 sudo apt-get -qq install avr-libc gcc-avr gdb-avr binutils-avr
 sudo apt-get -qq install avrdude
-
+sudo apt-get -qq install avra
 #-----
 
 echo "Installing preconditions for avrdudess"
