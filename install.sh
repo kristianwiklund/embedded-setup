@@ -13,6 +13,8 @@ echo "Installing basic environment"
 sudo apt-get -qq install --no-install-recommends curl wget 
 sudo apt-get -qq install python3 python3-pip python3-venv
 git config --global pull.rebase false # this is how I roll
+echo kernel.dmesg_restrict = 0 | sudo tee -a /etc/sysctl.d/10-local.conf >/dev/null
+sudo sysctl kernel.dmesg_restrict=0
 
 #-----
 echo "Installing emacs with modes"
