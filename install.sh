@@ -143,6 +143,7 @@ sudo apt-get -qq remove python3-typing-extensions
 pip3 install --quiet twisted pyserial graphviz typing-extensions
 
 
+
 if ! [ -d ~/.platformio ]
 then
     echo "Installing pio command line using convenience script"
@@ -159,4 +160,20 @@ else
     $HOME/.platformio/penv/bin/pio upgrade
 fi
 
+# ---
+echo "Installing ICE40 fpga development tools"
+
+sudo apt-get -qq install --no-install-recommends build-essential clang bison flex libreadline-dev gawk tcl-dev
+sudo apt-get -qq install libffi-dev mercurial graphviz xdot pkg-config python python3 libftdi-dev
+mkdir -p ~/src
+(cd ~/src;    git clone https://github.com/cliffordwolf/icestorm.git icestorm)
+(cd ~/src/icestorm; make; sudo make install)
+
+(cd ~/src;   git clone https://github.com/cseed/arachne-pnr.git arachne-pnr)
+(cd ~/src/arachne.pnr;make; sudo make install)
+
+(cd ~/src; git clone https://github.com/cliffordwolf/yosys.git yosys)
+(cd ~/src/yosys; make;    sudo make install)
+
+# ---
 echo "Log out and log in to update paths!"
