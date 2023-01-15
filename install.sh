@@ -170,7 +170,7 @@ mkdir -p ~/src
 (cd ~/src/icestorm; make; sudo make install)
 
 (cd ~/src;   git clone https://github.com/cseed/arachne-pnr.git arachne-pnr)
-(cd ~/src/arachne.pnr;make; sudo make install)
+(cd ~/src/arachne-pnr;make; sudo make install)
 
 (cd ~/src; git clone https://github.com/cliffordwolf/yosys.git yosys)
 (cd ~/src/yosys; make;    sudo make install)
