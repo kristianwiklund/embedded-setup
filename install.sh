@@ -175,5 +175,16 @@ mkdir -p ~/src
 (cd ~/src; git clone https://github.com/cliffordwolf/yosys.git yosys)
 (cd ~/src/yosys; make;    sudo make install)
 
+echo "Installing Olimex tooling for ICE40"
+
+mkdir -p ~/src
+(cd ~/src; git clone https://github.com/OLIMEX/iCE40HX1K-EVB.git)
+(cp -R ~/src/iCE40HX1K-EVB/programmer/iceprogduino ~/src/icestorm)
+(cd ~/src/icestorm/iceprogduino; make clean; make; sudo make install)
+
+echo "Installing Verilog development environment"
+
+sudo apt-get install -qq gtkwave iverilog
+
 # ---
 echo "Log out and log in to update paths!"
