@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export MAKEFLAGS=-j$(nproc)
+
 echo "Creating uninstall script"
 cat install.sh | grep -v uninstall | egrep "(apt-get|echo)" | grep -v pio | grep -v RIOT | grep -v pico | grep -v platformio | sed -e 's/Install/Remov/g' -e 's/install/remove/g' > uninstall.sh
 echo "sudo apt-get autoremove" >> uninstall.sh
@@ -34,7 +36,7 @@ then
 EOF
 fi
 
-emacs --eval="(progn (package-initialize)(package-install 'arduino-mode)(kill-emacs))"
+emacs --eval="(progn (package-initialize)(package-install 'arduino-mode)(kill-emacs))" --verbose
 
 #----
 
@@ -86,19 +88,19 @@ mkdir -p ~/src
 echo "Installing PIC development tools"
 sudo apt-get -qq --no-install-recommends install sdcc
 
-# the below code is untested.
-if ! [ -f /usr/bin/mplab_ipe ]; then
-    echo "MPLAB is not installed, downloading (and installing if running from X11)"
-    if ! [ -f MPLAB-installer.sh]; then
-	wget -nc https://www.microchip.com/mplabx-ide-linux-installer -O MPLAB-installer.tar
-	P=`tar xvf MPLAB-installer.tar`
-	rm -rf MPLAB-installer.tar
-	chmod 755 $P
-	if ! [ -z "$DISPLAY"]; then
-	    ./$P
-	fi
-    fi
-fi
+# the below code is untested (and not working well).
+#if ! [ -f /usr/bin/mplab_ipe ]; then
+#    echo "MPLAB is not installed, downloading (and installing if running from X11)"
+#    if ! [ -f MPLAB-installer.sh]; then
+#	wget -nc https://www.microchip.com/mplabx-ide-linux-installer -O MPLAB-installer.tar
+#	P=`tar xvf MPLAB-installer.tar`
+#	rm -rf MPLAB-installer.tar
+#	chmod 755 $P
+#	if ! [ -z "$DISPLAY"]; then
+#	    ./$P
+#	fi
+#    fi
+#fi
 
 
 #-----
