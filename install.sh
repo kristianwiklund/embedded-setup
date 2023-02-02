@@ -17,6 +17,7 @@ sudo apt-get -qq install python3 python3-pip python3-venv
 git config --global pull.rebase false # this is how I roll
 echo kernel.dmesg_restrict = 0 | sudo tee -a /etc/sysctl.d/10-local.conf >/dev/null
 sudo sysctl kernel.dmesg_restrict=0
+sudo apt-get install -qq libusb-1.0-0-dev libusb-1.0-0
 
 #-----
 echo "Installing emacs with modes"
@@ -105,7 +106,13 @@ sudo apt-get -qq --no-install-recommends install sdcc
 
 #-----
 echo "Installing OpenOCD"
-sudo apt-get -qq install openocd
+#rp2040 support is missing atm in debian
+#sudo apt-get -qq install openocd
+sudo apt-get -qq install libtool libjaylink-dev
+
+(cd ~/src; git clone --depth=1 https://github.com/raspberrypi/openocd && cd openocd-code && git submodule update --init --recursive)
+(cd ~/src/openocd-code; ./bootstrap && ./configure --with-jlink && make )
+sudo apt-get --q install gdb-multiarch
 
 #-----
 
@@ -127,9 +134,22 @@ echo "Installing tooling for rpi pico"
 # shallow clone of the pico repo
 echo "...pico sdk with examples"
 mkdir -p ~/pico
+if ! grep -Fq PICO_SDK  ~/.profile
+then
+    echo "Adding PICO sdk env var to path"
+    echo "export PICO_SDK_PATH=${HOME}/pico/pico-sdk" >> ~/.profile
+    export PICO_SDK_PATH=${HOME}/pico/pico-sdk
+fi
+
 (cd ~/pico; git clone https://github.com/raspberrypi/pico-sdk.git --depth 1 --branch master)
 (cd ~/pico/pico-sdk; git submodule update --depth 1 --init)
 (cd ~/pico/; git clone https://github.com/raspberrypi/pico-examples.git --depth 1 --branch master)
+(cd ~/pico/; git clone --depth 1 -b master https://github.com/raspberrypi/picotool.git; mkdir -p picotool/build)
+(cd ~/pico/picotool/build; cmake .. && make && cp picotool ~/.local/bin/)
+
+sudo mkdir -p /etc/udev/rules.d
+sudo cp 99-pico.rules /etc/udev/rules.d
+sudo udevadm control --reload-rules
 
 echo "...pico toolchain"
 
