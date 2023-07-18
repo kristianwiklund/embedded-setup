@@ -86,8 +86,8 @@ mkdir -p ~/src
 (cd ~/src/simavr; sudo make install)
 
 #
-echo "Installing PIC development tools"
-sudo apt-get -qq --no-install-recommends install sdcc
+#echo "Installing PIC development tools"
+#sudo apt-get -qq --no-install-recommends install sdcc
 
 # the below code is untested (and not working well).
 #if ! [ -f /usr/bin/mplab_ipe ]; then
@@ -157,12 +157,12 @@ sudo apt-get -qq install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-e
 
 echo "Pico env installed to ~/pico (rpi default location)"
 
-echo "Installing RIOT-OS to ~/src/RIOT"
-mkdir -p ~/src
-(cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
-sudo apt-get -qq install graphviz graphviz-dev
-sudo apt-get -qq remove python3-typing-extensions
-pip3 install --quiet twisted pyserial graphviz typing-extensions
+#echo "Installing RIOT-OS to ~/src/RIOT"
+#mkdir -p ~/src
+#(cd ~/src; git clone https://github.com/RIOT-OS/RIOT.git --depth 1)
+#sudo apt-get -qq install graphviz graphviz-dev
+#sudo apt-get -qq remove python3-typing-extensions
+#pip3 install --quiet twisted pyserial graphviz typing-extensions
 
 
 
@@ -183,30 +183,30 @@ else
 fi
 
 # ---
-echo "Installing ICE40 fpga development tools"
+#echo "Installing ICE40 fpga development tools"
 
-sudo apt-get -qq install --no-install-recommends build-essential clang bison flex libreadline-dev gawk tcl-dev
-sudo apt-get -qq install libffi-dev mercurial graphviz xdot pkg-config python python3 libftdi-dev
-mkdir -p ~/src
-(cd ~/src;    git clone https://github.com/cliffordwolf/icestorm.git icestorm)
-(cd ~/src/icestorm; make; sudo make install)
+#sudo apt-get -qq install --no-install-recommends build-essential clang bison flex libreadline-dev gawk tcl-dev
+#sudo apt-get -qq install libffi-dev mercurial graphviz xdot pkg-config python python3 libftdi-dev
+#mkdir -p ~/src
+#(cd ~/src;    git clone https://github.com/cliffordwolf/icestorm.git icestorm)
+#(cd ~/src/icestorm; make; sudo make install)
 
-(cd ~/src;   git clone https://github.com/cseed/arachne-pnr.git arachne-pnr)
-(cd ~/src/arachne-pnr;make; sudo make install)
+#(cd ~/src;   git clone https://github.com/cseed/arachne-pnr.git arachne-pnr)
+#(cd ~/src/arachne-pnr;make; sudo make install)
 
-(cd ~/src; git clone https://github.com/cliffordwolf/yosys.git yosys)
-(cd ~/src/yosys; make;    sudo make install)
+#(cd ~/src; git clone https://github.com/cliffordwolf/yosys.git yosys)
+#(cd ~/src/yosys; make;    sudo make install)
 
-echo "Installing Olimex tooling for ICE40"
+#echo "Installing Olimex tooling for ICE40"
 
-mkdir -p ~/src
-(cd ~/src; git clone https://github.com/OLIMEX/iCE40HX1K-EVB.git)
-(cp -R ~/src/iCE40HX1K-EVB/programmer/iceprogduino ~/src/icestorm)
-(cd ~/src/icestorm/iceprogduino; make clean; make; sudo make install)
+#mkdir -p ~/src
+#(cd ~/src; git clone https://github.com/OLIMEX/iCE40HX1K-EVB.git)
+#(cp -R ~/src/iCE40HX1K-EVB/programmer/iceprogduino ~/src/icestorm)
+#(cd ~/src/icestorm/iceprogduino; make clean; make; sudo make install)
 
-echo "Installing Verilog development environment"
+#echo "Installing Verilog development environment"
 
-sudo apt-get install -qq gtkwave iverilog
+#sudo apt-get install -qq gtkwave iverilog
 
 # ---
 echo "Log out and log in to update paths!"
